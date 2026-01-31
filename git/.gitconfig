@@ -1,0 +1,22 @@
+[user]
+	name = Samuel SAVIN
+	email = SamuelSA@users.noreply.github.com
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[core]
+    editor = code -r --wait
+
+[color]
+    ui = auto
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    cm = commit
+    lg = log --oneline --graph --decorate

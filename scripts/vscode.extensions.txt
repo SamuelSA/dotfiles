@@ -1,0 +1,10 @@
+docker.docker
+emilast.logfilehighlighter
+github.copilot
+github.copilot-chat
+jock.svg
+johnny-zhao.oai-compatible-copilot
+mechatroner.rainbow-csv
+tomoki1207.pdf
+vscode-icons-team.vscode-icons
+yzhang.markdown-all-in-one

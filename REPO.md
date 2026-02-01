@@ -63,6 +63,20 @@ ssh-add ~/.ssh/id_ed25519
 - If a package is unavailable in your distro repos, the script will print manual steps instead of failing silently.
 - After running the script, verify your default shell is `zsh` with `chsh -s $(which zsh)` and re-login.
 
+**Visual Studio Code**
+
+- **Settings & Keys:** The repo includes a `vscode` package with user settings and keybindings at `vscode/.config/Code/User/`.
+- **Stow:** Use `stow vscode` (from the dotfiles root) to symlink VS Code settings into `~/.config/Code/User/` after you merge any local settings.
+- **Extensions:** A curated list is available at `vscode/extensions.txt`. The bootstrap script will attempt to install these extensions automatically if the `code` CLI is available.
+
+- **Quick extension install:**
+
+```bash
+xargs -n1 code --install-extension < vscode/extensions.txt
+```
+
+- **Docs:** https://code.visualstudio.com/docs and CLI: https://code.visualstudio.com/docs/editor/command-line
+
 **License / Attribution**
 
 Keep your dotfiles under your preferred license if you share them. This repository contains personal configuration snippets and install helpers.

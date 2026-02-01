@@ -90,6 +90,28 @@ apply_stow() {
   fi
 }
 
+install_vscode_extensions() {
+  # Prefer extensions list in scripts/ (moved location). Fall back to vscode/extensions.txt
+  local ext_file="$DOTFILES_DIR/scripts/vscode.extensions.txt"
+  if [ ! -f "$ext_file" ]; then
+    ext_file="$DOTFILES_DIR/vscode/extensions.txt"
+  fi
+
+  if command -v code >/dev/null 2>&1 && [ -f "$ext_file" ]; then
+    echo "Installing VS Code extensions from $ext_file"
+    while IFS= read -r ext || [ -n "$ext" ]; do
+      ext="${ext%%#*}"    # strip comments after #
+      ext="${ext## }"     # trim leading space
+      ext="${ext%% }"     # trim trailing space
+      [ -z "$ext" ] && continue
+      echo "-> installing: $ext"
+      code --install-extension "$ext" || echo "failed to install $ext"
+    done < "$ext_file"
+  else
+    echo "VS Code CLI not found or $ext_file missing; skipping extension install"
+  fi
+}
+
 main() {
   if ! install_packages; then
     echo "Package installation skipped or failed. Continue to other steps."
@@ -99,6 +121,7 @@ main() {
   install_nerd_font || echo "font install failed or skipped"
 
   apply_stow
+  install_vscode_extensions
 
   echo
   echo "Bootstrap complete. Next steps:"

@@ -123,6 +123,9 @@ alias df='df -h'
 alias du='du -h'
 alias free='free -h'
 
+alias editrc="code -r ~/.zshrc"
+alias editlocalrc="code -r ~/.local.zshrc"
+
 # ---------------------------------------------------------------------------
 # Functions (small, useful helpers)
 # ---------------------------------------------------------------------------

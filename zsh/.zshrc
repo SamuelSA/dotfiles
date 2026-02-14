@@ -124,7 +124,7 @@ alias du='du -h'
 alias free='free -h'
 
 alias editrc="code -r ~/.zshrc"
-alias editlocalrc="code -r ~/.local.zshrc"
+alias editlocalrc="code -r ~/.zshrc.local"
 
 # ---------------------------------------------------------------------------
 # Functions (small, useful helpers)
@@ -198,8 +198,8 @@ fi
 # This file is NOT tracked in git
 ###############################################################################
 
-if [[ -f "${HOME}/.local.zshrc" ]]; then
-  source "${HOME}/.local.zshrc"
+if [[ -f "${HOME}/.zshrc.local" ]]; then
+  source "${HOME}/.zshrc.local"
 fi
 
 ###############################################################################

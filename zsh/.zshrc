@@ -133,6 +133,9 @@ alias df='df -h'
 alias du='du -h'
 alias free='free -h'
 
+alias h='history'
+alias hg='history | grep'
+
 alias editrc="code -r ~/.zshrc"
 alias editlocalrc="code -r ~/.zshrc.local"
 

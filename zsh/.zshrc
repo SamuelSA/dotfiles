@@ -80,6 +80,16 @@ bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^R' history-incremental-search-backward
 
+# Home / End fixes
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
+
+# Enable proper bracketed paste handling
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
 # ---------------------------------------------------------------------------
 # Aliases — Safe, Modern Replacements
 # ---------------------------------------------------------------------------

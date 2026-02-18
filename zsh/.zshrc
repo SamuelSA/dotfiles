@@ -216,31 +216,34 @@ if [[ -f "${HOME}/.zshrc.local" ]]; then
 fi
 
 ###############################################################################
-# Mammouth Code
+# Mammouth completion (yargs-based)
 ###############################################################################
+
 if [[ -x "$HOME/.mammouth/bin/mammouth" ]]; then
   export PATH="$HOME/.mammouth/bin:$PATH"
 
-  #compdef mammouth
-  _mammouth_yargs_completions()
-  {
+  # Completion function
+  _mammouth_yargs_completions() {
     local reply
     local si=$IFS
-    IFS=$'
-  ' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" mammouth --get-yargs-completions "${words[@]}"))
+
+    IFS=$'\n' reply=($( \
+      COMP_CWORD="$((CURRENT-1))" \
+      COMP_LINE="$BUFFER" \
+      COMP_POINT="$CURSOR" \
+      mammouth --get-yargs-completions "${words[@]}" \
+    ))
+
     IFS=$si
-    if [[ ${#reply} -gt 0 ]]; then
+
+    if (( ${#reply[@]} )); then
       _describe 'values' reply
     else
       _default
     fi
   }
-  if [[ "'${zsh_eval_context[-1]}" == "loadautofunc" ]]; then
-    _mammouth_yargs_completions "$@"
-  else
-    compdef _mammouth_yargs_completions mammouth
-  fi
-  ###-end-mammouth-completions-###
+
+  compdef _mammouth_yargs_completions mammouth
 fi
 
 ###############################################################################

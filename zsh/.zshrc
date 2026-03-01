@@ -103,6 +103,7 @@ alias mv='mv -i'
 alias ls='eza --icons --group-directories-first'
 alias la='ls -a'
 alias ll='eza -lah --icons --group-directories-first'
+alias lla='ll -a'
 alias tree='eza --tree --icons'
 
 alias cat='bat'

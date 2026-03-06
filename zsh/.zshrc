@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 ###############################################################################
 # ZSH CONFIGURATION — Clean, Fast, Modern
 # Managed via GNU Stow
@@ -49,12 +50,16 @@ export LANG="en_US.UTF-8"
 # ---------------------------------------------------------------------------
 # PATH management
 # ---------------------------------------------------------------------------
+typeset -U path
 
 # User-local binaries
-export PATH="$HOME/.local/bin:$PATH"
+path=(
+  "$HOME/.local/bin"
+  $path
+)
 
 # Cargo (Rust)
-[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && path=("$HOME/.cargo/bin" $path)
 
 # ---------------------------------------------------------------------------
 # Completion system (must be early)
@@ -221,7 +226,7 @@ fi
 ###############################################################################
 
 if [[ -x "$HOME/.mammouth/bin/mammouth" ]]; then
-  export PATH="$HOME/.mammouth/bin:$PATH"
+  path=("$HOME/.mammouth/bin" $path)
 
   # Completion function
   _mammouth_yargs_completions() {

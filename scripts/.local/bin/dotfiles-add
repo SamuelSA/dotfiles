@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+############################################
+# Resolve real script location (follow symlink)
+############################################
+SOURCE="${BASH_SOURCE[0]}"
+
+while [ -L "$SOURCE" ]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+#echo "📍 Script directory: $SCRIPT_DIR"
+
+############################################
+# Detect git root of the repo containing this script
+############################################
+if ! REPO_DIR="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null)"; then
+  echo "❌ Could not detect git root."
+  exit 1
+fi
+
+#echo "📁 Detected dotfiles repo at: $REPO_DIR"
+
+############################################
+# Derive repo name from script filename
+############################################
+SCRIPT_NAME="$(basename "$0")"
+REPO_NAME="${SCRIPT_NAME%-add}"
+
+############################################
+# Usage
+############################################
+usage() {
+  echo "Usage: $SCRIPT_NAME <package> <relative-path-from-home>"
+  echo "Example: $SCRIPT_NAME zsh .zshrc"
+  exit 1
+}
+
+[ "$#" -eq 2 ] || usage
+
+PACKAGE="$1"
+FILE="$2"
+
+SOURCE_PATH="$HOME/$FILE"
+TARGET_DIR="$REPO_DIR/$PACKAGE"
+TARGET_PATH="$TARGET_DIR/$FILE"
+
+if [ ! -e "$SOURCE_PATH" ]; then
+  echo "❌ $SOURCE_PATH does not exist."
+  exit 1
+fi
+
+if [ -e "$TARGET_PATH" ]; then
+  echo "❌ $TARGET_PATH already exists in the repo."
+  exit 1
+fi
+
+mkdir -p "$(dirname "$TARGET_PATH")"
+
+echo "📦 Moving:"
+echo "   $SOURCE_PATH"
+echo "   → $TARGET_PATH"
+
+mv "$SOURCE_PATH" "$TARGET_PATH"
+
+cd "$REPO_DIR"
+stow "$PACKAGE"
+
+echo "✅ $REPO_NAME: added '$FILE' to package '$PACKAGE'"

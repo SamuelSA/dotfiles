@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+############################################
+# Resolve real script location (follow symlink)
+############################################
+SOURCE="${BASH_SOURCE[0]}"
+
+while [ -L "$SOURCE" ]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+
+############################################
+# Detect git root of the repo containing this script
+############################################
+if ! REPO_DIR="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null)"; then
+  echo "❌ Could not detect git root."
+  exit 1
+fi
+
+############################################
+# Derive repo name from script filename
+############################################
+SCRIPT_NAME="$(basename "$0")"
+REPO_NAME="${SCRIPT_NAME%-remove}"
+
+############################################
+# Usage
+############################################
+usage() {
+  echo "Usage: $SCRIPT_NAME <package> <relative-path-from-home>"
+  echo "Example: $SCRIPT_NAME zsh .zshrc"
+  exit 1
+}
+
+[ "$#" -eq 2 ] || usage
+
+PACKAGE="$1"
+FILE="$2"
+
+TARGET_DIR="$REPO_DIR/$PACKAGE"
+TARGET_PATH="$TARGET_DIR/$FILE"
+DEST_PATH="$HOME/$FILE"
+
+if [ ! -e "$TARGET_PATH" ]; then
+  echo "❌ $TARGET_PATH does not exist in the repo."
+  exit 1
+fi
+
+if [ ! -L "$DEST_PATH" ]; then
+  echo "❌ $DEST_PATH is not a symlink. Aborting to avoid overwrite."
+  exit 1
+fi
+
+LINK_TARGET="$(readlink -f "$DEST_PATH")"
+if [ "$LINK_TARGET" != "$TARGET_PATH" ]; then
+  echo "❌ $DEST_PATH points to $LINK_TARGET, expected $TARGET_PATH."
+  exit 1
+fi
+
+echo "📦 Removing from stow and restoring:"
+echo "   $TARGET_PATH"
+echo "   → $DEST_PATH"
+
+# Remove the symlink and move the file back
+rm "$DEST_PATH"
+mkdir -p "$(dirname "$DEST_PATH")"
+mv "$TARGET_PATH" "$DEST_PATH"
+
+# Remove empty directories left in the package
+cd "$REPO_DIR"
+find "$TARGET_DIR" -type d -empty -delete 2>/dev/null || true
+
+echo "✅ $REPO_NAME: restored '$FILE' from package '$PACKAGE'"

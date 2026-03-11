@@ -111,7 +111,7 @@ alias ll='eza -lah --icons --group-directories-first'
 alias lla='ll -a'
 alias tree='eza --tree --icons'
 
-alias cat='bat'
+#alias cat='bat'
 alias grep='rg'
 
 # Git shortcuts

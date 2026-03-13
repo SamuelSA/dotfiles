@@ -15,7 +15,8 @@
   "hexeditor.inspectorType": "aside",
   "remote.SSH.remotePlatform": {
     "foundry.famille-savin.com": "linux",
-    "pi5-n8n": "linux"
+    "pi5-n8n": "linux",
+    "192.168.1.151": "linux"
   },
   "security.allowedUNCHosts": ["nas"],
   "security.workspace.trust.untrustedFiles": "open",
@@ -24,13 +25,20 @@
   "workbench.iconTheme": "vscode-icons",
   "workbench.tree.indent": 10,
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "vscode.json-language-features",
   },
-  "diffEditor.renderSideBySide": false,
+  "diffEditor.renderSideBySide": true,
   "chat.tools.terminal.autoApprove": {
-    "upower": true
+    "upower": true,
+    "true": true,
+    "/bin/cat": true,
   },
   "terminal.integrated.copyOnSelection": true,
   "terminal.integrated.defaultProfile.linux": "zsh",
-  "git.enableSmartCommit": true
+  "git.enableSmartCommit": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.experimental.showMoves": true,
+  "git.autofetch": true,
+  "claudeCode.preferredLocation": "panel",
+  "chat.viewSessions.orientation": "stacked",
 }

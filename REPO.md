@@ -3,6 +3,7 @@
 - **Overview:** A compact local shell environment using `kitty`, `zsh` (with `starship` prompt), `tmux` and several utilities (`fzf`, `bat`, `exa`, `rg`). This repo holds the dotfiles and a helper script to bootstrap a new system.
 
 **Key Links:**
+
 - **Kitty:** https://sw.kovidgoyal.net/kitty/
 - **Starship:** https://starship.rs/
 - **Nerd Fonts (Fira Code):** https://www.nerdfonts.com/
@@ -14,6 +15,7 @@
 - `tmux/` — `.tmux.conf`
 - `kitty/` — `.config/kitty/kitty.conf`
 - `git/` — `.gitconfig`
+- `onedrive/` — `.config/onedrive/{config,sync_list}`
 - `README.md` — this file
 
 Use `stow` to create symlinks from the dotfiles directory into your home directory. Example:
@@ -21,6 +23,7 @@ Use `stow` to create symlinks from the dotfiles directory into your home directo
 ```
 cd ~/.dotfiles
 stow tmux zsh kitty git
+stow --no-folding onedrive
 ```
 
 **Bootstrap script**
@@ -77,10 +80,24 @@ xargs -n1 code --install-extension < vscode/extensions.txt
 
 - **Docs:** https://code.visualstudio.com/docs and CLI: https://code.visualstudio.com/docs/editor/command-line
 
+**OneDrive**
+
+- **Config:** The `onedrive` package holds the OneDrive Client for Linux configuration at `onedrive/.config/onedrive/` (`config` and `sync_list`).
+- **Stow — always with `--no-folding`:**
+
+```
+cd ~/.dotfiles
+stow --no-folding onedrive
+```
+
+- **Why `--no-folding` is mandatory here:** the client writes its OAuth tokens (`refresh_token`, `access_token`) and its sync database (`items.sqlite3`) _inside_ `~/.config/onedrive`, alongside the stowed config. Plain `stow` folds that directory into a single symlink aimed into this repo, so those files — including live credentials — would be created directly in the git working tree. `scripts/.local/bin/dotfiles-add` runs plain `stow`, so it must **not** be used for this package.
+- **Guard:** `.gitignore` ignores everything under `onedrive/.config/onedrive/` except `config` and `sync_list`, as a second line of defence.
+- **Docs:** https://github.com/abraunegg/onedrive/blob/master/docs/application-config-options.md
+
 **License / Attribution**
 
 Keep your dotfiles under your preferred license if you share them. This repository contains personal configuration snippets and install helpers.
 
-----
+---
 
-Last updated: 2026-02-01
+Last updated: 2026-09-23

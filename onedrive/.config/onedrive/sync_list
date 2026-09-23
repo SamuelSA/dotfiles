@@ -1,0 +1,21 @@
+# Selective synchronisation: sync ONLY the 'Code' folder from the OneDrive root.
+# Everything else on OneDrive is excluded - 'sync_list' excludes everything by
+# default and requires explicit inclusion.
+#
+# Stow-managed from ~/.dotfiles/onedrive - edit THIS file, not the live path
+# (~/.config/onedrive/sync_list is a symlink to it).
+#
+# Rules are relative to sync_dir (i.e. the OneDrive root).
+# A LEADING '/' anchors the rule to the OneDrive root. This matters: rules
+# without a leading slash match ANYWHERE and force an exhaustive scan of the
+# whole account (slow, heavy on the API).
+#
+# '/Code'     - the Code folder itself, in the root only
+# '/Code/**'  - belt-and-braces recursive inclusion for everything beneath it
+#
+# Before the first real sync, validate what this will actually do:
+#   onedrive --display-config                 # confirm sync_dir + sync_list are picked up
+#   onedrive --sync --dry-run --verbose       # confirm ONLY /Code is in scope
+
+/Code
+/Code/**

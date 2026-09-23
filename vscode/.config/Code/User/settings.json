@@ -7,8 +7,6 @@
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
   "files.trimTrailingWhitespace": true,
-  "gitlens.ai.model": "vscode",
-  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
   "hexeditor.columnWidth": 32,
   "hexeditor.showDecodedText": true,
   "hexeditor.defaultEndianness": "little",
@@ -25,13 +23,24 @@
   "workbench.iconTheme": "vscode-icons",
   "workbench.tree.indent": 10,
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "diffEditor.renderSideBySide": true,
   "chat.tools.terminal.autoApprove": {
     "upower": true,
     "true": true,
     "/bin/cat": true,
+    "ip": true,
+    "ping": true,
+    "resolvectl": true,
+    "dig": true,
+    "arp": true,
+    "Get-MpPreference": true,
+    "Get-MpComputerStatus": true,
+    "Get-CimInstance": true,
+    "Select": true,
+    "Get-WinEvent": true,
+    "else": true
   },
   "terminal.integrated.copyOnSelection": true,
   "terminal.integrated.defaultProfile.linux": "zsh",
@@ -40,5 +49,28 @@
   "diffEditor.experimental.showMoves": true,
   "git.autofetch": true,
   "claudeCode.preferredLocation": "panel",
+  "chat.tools.urls.autoApprove": {
+    "https://code.visualstudio.com": true,
+    "https://github.com/microsoft/vscode/wiki/*": true,
+    "https://www.amazon.fr": true,
+    "https://www.aliexpress.com": {
+      "approveRequest": true,
+      "approveResponse": false
+    },
+    "https://www.meilleursmobilesnumeriques.fr": true,
+    "https://*.meilleursmobilesnumeriques.fr": true,
+    "https://domotique-info.fr": true,
+    "https://www.domadoo.fr": true,
+    "https://*.domadoo.fr": true,
+    "https://github.com": {
+      "approveRequest": false,
+      "approveResponse": true
+    }
+  },
+  "vsicons.dontShowNewVersionMessage": true,
+  "github.copilot.chat.localIndex.enabled": true,
+  "claudeCode.disableLoginPrompt": true,
   "chat.viewSessions.orientation": "stacked",
+  "chat.byokUtilityModelDefault": "mainAgent",
+  "deepseek-copilot.visionModel": "deepseek/deepseek-v4-flash-vision-exp"
 }

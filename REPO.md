@@ -16,7 +16,7 @@
 - `kitty/` — `.config/kitty/kitty.conf`
 - `git/` — `.gitconfig`
 - `onedrive/` — `.config/onedrive/{config,sync_list}`
-- `README.md` — this file
+- `REPO.md` — this file
 
 Use `stow` to create symlinks from the dotfiles directory into your home directory. Example:
 
@@ -24,14 +24,6 @@ Use `stow` to create symlinks from the dotfiles directory into your home directo
 cd ~/.dotfiles
 stow tmux zsh kitty git
 stow --no-folding onedrive
-```
-
-**Bootstrap script**
-
-- A portable helper script is provided at `scripts/setup_env.sh` to install required packages, Nerd Font (Fira Code), `starship`, and to run `stow` for the available components. See `scripts/setup_env.sh` for details and run like:
-
-```
-bash scripts/setup_env.sh
 ```
 
 **Quick manual steps**
@@ -91,7 +83,7 @@ stow --no-folding onedrive
 ```
 
 - **Why `--no-folding` is mandatory here:** the client writes its OAuth tokens (`refresh_token`, `access_token`) and its sync database (`items.sqlite3`) _inside_ `~/.config/onedrive`, alongside the stowed config. Plain `stow` folds that directory into a single symlink aimed into this repo, so those files — including live credentials — would be created directly in the git working tree. `scripts/.local/bin/dotfiles-add` runs plain `stow`, so it must **not** be used for this package.
-- **Guard:** `.gitignore` ignores everything under `onedrive/.config/onedrive/` except `config` and `sync_list`, as a second line of defence.
+- **Requires onedrive >= v2.5.6** (`use_recycle_bin`) — Debian 13 ships 2.5.4-1, too old; Debian 14 ships 2.5.10. Upstream build: `home:/npreining:/debian-ubuntu-onedrive`.
 - **Docs:** https://github.com/abraunegg/onedrive/blob/master/docs/application-config-options.md
 
 **License / Attribution**
@@ -100,4 +92,4 @@ Keep your dotfiles under your preferred license if you share them. This reposito
 
 ---
 
-Last updated: 2026-09-23
+Last updated: 2026-09-25

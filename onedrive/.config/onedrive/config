@@ -1,33 +1,19 @@
 # OneDrive Client for Linux - user configuration
-# Docs: https://github.com/abraunegg/onedrive/blob/master/docs/application-config-options.md
-#
-# Stow-managed from ~/.dotfiles/onedrive - edit THIS file, not the live path
-# (~/.config/onedrive/config is a symlink to it).
-#
-# Only the options we deliberately set are listed here; everything else uses
-# the application defaults. Verify the effective result with:
-#   onedrive --display-config
+# Stow-managed from ~/.dotfiles/onedrive. Edit this source file, not the live path.
+# For the full option list: https://github.com/abraunegg/onedrive/blob/master/docs/application-config-options.md
 
-# Where OneDrive content is stored locally. This is also the default, but it is
-# set explicitly so `onedrive --display-config` reports it unambiguously.
+# Local sync root.
 sync_dir = "~/OneDrive"
 
-# Safety net: content deleted online is moved to the local Trash instead of
-# being removed from disk outright.
+# Move online deletions to the desktop trash instead of deleting local files.
 use_recycle_bin = "true"
 
-# Files never worth syncing to the cloud.
-# IMPORTANT: defining skip_file REPLACES the application defaults, so the four
-# default patterns (~* .~* *.tmp *.swp *.partial) are repeated here on purpose.
-# desktop.ini is also a name Microsoft prohibits outright.
-# *-safeBackup-* keeps conflict-preservation files local (they are a local
-# data-protection artefact and reviewing them online serves no purpose).
+# These files are not worth syncing. We re-declare the defaults because
+# skip_file replaces the built-in list.
 skip_file = "~*|.~*|*.tmp|*.swp|*.partial|desktop.ini|*.lnk|.DS_Store|*-safeBackup-*"
 
-# Regenerable caches, virtualenvs and build output - pure waste of cloud quota
-# and bandwidth. Entries are relative to sync_dir.
-# 'bin' / 'obj' are .NET and Java build output. Verified (via dry-run) that the
-# only bin/obj directories under Code are build artefacts. Caveat: a bare 'bin'
-# matches ANY directory of that name within the sync scope, so if a project ever
-# keeps real scripts in bin/, use a path-scoped rule for it instead.
+# Ignore generated caches, virtualenvs, and build output within the sync root.
 skip_dir = "node_modules|__pycache__|.venv|venv|.pytest_cache|.mypy_cache|.ruff_cache|.tox|bin|obj"
+
+# Keep CPU usage reasonable on a 4-core Pi.
+threads = "4"
